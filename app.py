@@ -118,9 +118,9 @@ def thank_you():
 if __name__ == "__main__":
     app.run(debug=True)
 
-    
-@app.route("/submit", methods=["GET", "POST"])
-def submit():
+
+@app.route("/intro_quiz", methods=["GET", "POST"])
+def intro_quiz():
     if request.method == "POST":
         # Retrieve form data
         username = request.form.get("username")
