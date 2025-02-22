@@ -1,0 +1,55 @@
+from flask import Flask, render_template, request, redirect, url_for
+import os
+from datetime import datetime
+
+app = Flask(__name__)
+
+# Define the folder to store journal entries
+journal_folder = 'journal_entries'
+
+# Ensure the journal directory exists
+if not os.path.exists(journal_folder):
+    os.makedirs(journal_folder)
+
+# Helper function to get the journal file path based on the date
+def get_journal_file_path(date):
+    return os.path.join(journal_folder, f"{date}.txt")
+
+# Home page where the user can write their daily journal
+@app.route("/", methods=["GET", "POST"])
+def index():
+    today_date = datetime.now().strftime('%Y-%m-%d')  # Today's date as YYYY-MM-DD
+    
+    # Check if the journal for today already exists
+    journal_file = get_journal_file_path(today_date)
+    
+    if request.method == "POST":
+        # Save the journal entry
+        journal_content = request.form['journal']
+        with open(journal_file, 'w') as file:
+            file.write(journal_content)
+        return redirect(url_for('index'))
+
+    # If journal exists, show it; otherwise, show empty form
+    if os.path.exists(journal_file):
+        with open(journal_file, 'r') as file:
+            journal_content = file.read()
+    else:
+        journal_content = ""
+
+    return render_template('index.html', journal_content=journal_content, today_date=today_date)
+
+# Page for viewing past journal entries based on a date
+@app.route("/view/<date>", methods=["GET"])
+def view_entry(date):
+    journal_file = get_journal_file_path(date)
+    
+    if os.path.exists(journal_file):
+        with open(journal_file, 'r') as file:
+            journal_content = file.read()
+        return render_template('view_entry.html', date=date, journal_content=journal_content)
+    else:
+        return f"No journal entry found for {date}", 404
+
+if __name__ == "__main__":
+    app.run(debug=True)
