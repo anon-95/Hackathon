@@ -110,6 +110,8 @@ def intro_quiz():
         list_of_answers = [medication, times_per_day, email]
         quiz_id = 1  # Hardcoded quiz_id for now (adjust as needed)
         question_number = 1  # Assume first question (adjust as needed)
+        user = db.execute("SELECT id FROM users WHERE username = ?", "example_user")
+        user_id = user[0]["id"]  # Assuming the username is unique
 
         for i, answer in enumerate(list_of_answers):
             db.execute("""
@@ -128,7 +130,12 @@ def intro_quiz():
         return render_template("pull_feeling_journal.html")
 
     # If the request is GET, simply render the form
-    return render_template("intro_quiz.html")
+<<<<<<< HEAD
+    return render_template("form.html")
+@app.route("/weekly_journal")
+def weekly_journal():
+    return render_template("weekly_journal.html")  # Render the quiz HTML page
+=======
 
 if __name__ == "__main__":
     app.run(debug=True)
