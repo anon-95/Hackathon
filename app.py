@@ -115,7 +115,7 @@ def intro_quiz():
             db.execute("""
             INSERT INTO quiz_answers (user_id, quiz_id, question_number, answer, time)
             VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
-            """, username, quiz_id, i, answer)
+            """, username, int(quiz_id), int(i), answer)
 
 
         # Assume quiz_id and question_number are being passed as part of the form (or set default values for now)
