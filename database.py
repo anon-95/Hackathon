@@ -1,7 +1,7 @@
 from cs50 import SQL
-
 # Initialize the database connection
 db = SQL("sqlite:///database.db")
+db.execute("PRAGMA foreign_keys = ON")
 
 # Create the "users" table if it doesn't exist
 db.execute("""

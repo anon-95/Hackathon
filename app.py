@@ -68,7 +68,7 @@ def login():
 
         # Store user in session
         session["user_id"] = user[0]["id"]
-        return render_template("intro_quiz")  # Redirect to dashboard after login
+        return render_template("intro_quiz.html")  # Redirect to dashboard after login
 
     return render_template("login.html")
 
@@ -102,20 +102,25 @@ if __name__ == "__main__":
 def intro_quiz():
     if request.method == "POST":
         # Retrieve form data
+        list_of_answers = []
         username = request.form.get("username")
         medication = request.form.get("medication")
         times_per_day = request.form.get("times_per_day")
         email = request.form.get("email")
-
-        # Assume quiz_id and question_number are being passed as part of the form (or set default values for now)
+        list_of_answers = [medication, times_per_day, email]
         quiz_id = 1  # Hardcoded quiz_id for now (adjust as needed)
         question_number = 1  # Assume first question (adjust as needed)
 
+        for i, answer in enumerate(list_of_answers):
+            db.execute("""
+            INSERT INTO quiz_answers (user_id, quiz_id, question_number, answer, time)
+            VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+            """, username, quiz_id, i, answer)
+
+
+        # Assume quiz_id and question_number are being passed as part of the form (or set default values for now)
+
         # Insert form data into the quiz_answers table
-        db.execute("""
-        INSERT INTO quiz_answers (username, quiz_id, question_number, answer, time)
-        VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
-        """, username, quiz_id, question_number, medication)
 
         # You can handle other answers here similarly if you have more questions
 
@@ -123,7 +128,7 @@ def intro_quiz():
         return render_template("pull_feeling_journal.html")
 
     # If the request is GET, simply render the form
-    return render_template("form.html")
+    return render_template("intro_quiz.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
