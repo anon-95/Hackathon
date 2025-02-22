@@ -1,42 +1,40 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro Quiz</title>
+</head>
+<body>
+    <h1>Intro Quiz: Medication Details</h1>
 
-{% block title %}
-    Simple Quiz
-{% endblock %}
+    <form action="/intro_quiz" method="POST">
+        <!-- Question 1: Username -->
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
 
-{% block main %}
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Submit Your Information</h1>
-        
-        <!-- Form that submits via POST -->
-        <form action="/intro_quiz" method="POST">
-            <!-- Question 1: Name -->
-            <div class="form-group">
-                <label for="name">What is your name?</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            
-            <!-- Question 2: Medication -->
-            <div class="form-group">
-                <label for="medication">What ADHD medication are you taking?</label>
-                <input type="text" class="form-control" id="medication" name="medication" required>
-            </div>
+        <!-- Question 2: Medication -->
+        <div>
+            <label for="medication">What ADHD medication are you taking?</label>
+            <input type="text" id="medication" name="medication" required>
+        </div>
 
-            <!-- Question 3: Times per day -->
-            <div class="form-group">
-                <label for="times_per_day">How many times a day do you take it?</label>
-                <input type="number" class="form-control" id="times_per_day" name="times_per_day" required>
-            </div>
+        <!-- Question 3: Times per day -->
+        <div>
+            <label for="times_per_day">How many times per day do you take it?</label>
+            <input type="number" id="times_per_day" name="times_per_day" required>
+        </div>
 
-            <!-- Question 4: Email -->
-            <div class="form-group">
-                <label for="email">What is your email?</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
+        <!-- Question 4: Email -->
+        <div>
+            <label for="email">What is your email?</label>
+            <input type="email" id="email" name="email" required>
+        </div>
 
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary btn-block">Submit</button>
-        </form>
-    </div>
-{% endblock %}
-
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
