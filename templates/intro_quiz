@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Quiz</title>
-    <link rel="stylesheet" href="../static/intro_quiz.css">
-</head>
-<body>
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
     <div class="quiz-container">
         <h1>Welcome to the Quiz! Just answer a few questions about yourslef to get started.</h1>
         <form id="quiz-form">
@@ -36,5 +33,5 @@
             <button type="submit">Submit</button>
         </form>
     </div>
-</body>
-</html>
+{% endblock %}
+
