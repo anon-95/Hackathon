@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Quiz</title>
-    <!-- Bootstrap CDN for styling -->
+    <title>Simple Form with POST</title>
+    <!-- Bootstrap for styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/intro_quiz.css"> <!-- Custom stylesheet -->
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Welcome to the Quiz! Answer a few questions about yourself to get started.</h1>
+        <h1 class="text-center mb-4">Submit Your Information</h1>
         
-        <form id="quiz-form" method="POST">
+        <!-- Form that submits via POST -->
+        <form action="/submit" method="POST">
             <!-- Question 1: Name -->
             <div class="form-group">
                 <label for="name">What is your name?</label>
@@ -25,7 +25,7 @@
                 <input type="text" class="form-control" id="medication" name="medication" required>
             </div>
 
-            <!-- Question 3: Times per day (using text input instead of radio buttons) -->
+            <!-- Question 3: Times per day -->
             <div class="form-group">
                 <label for="times_per_day">How many times a day do you take it?</label>
                 <input type="number" class="form-control" id="times_per_day" name="times_per_day" required>
