@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Form with POST</title>
-    <!-- Bootstrap for styling -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+{% extends "layout.html" %}
+
+{% block title %}
+    Simple Quiz
+{% endblock %}
+
+{% block main %}
     <div class="container mt-5">
         <h1 class="text-center mb-4">Submit Your Information</h1>
         

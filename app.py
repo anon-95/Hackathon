@@ -89,27 +89,6 @@ def logout():
     return redirect("/")
 
 
-@app.route("/intro_quiz", methods=["GET", "POST"])
-def intro_quiz():
-    if request.method == "POST":
-        # Get form data
-        name = request.form.get("name")
-        medication = request.form.get("medication")
-        times_per_day = request.form.get("times_per_day")
-        email = request.form.get("email")
-
-        # Insert the data into the database
-        db.execute("""
-        INSERT INTO users (name, medication, times_per_day, email)
-        VALUES (?, ?, ?, ?)
-        """, name, medication, times_per_day, email)
-
-        # Redirect to a "Thank you" page or back to the form
-        return redirect("/thank_you")
-
-    # Render the form if it's a GET request
-    return render_template("index.html")
-
 # Route for the Thank You page (optional)
 @app.route("/thank_you")
 def thank_you():
