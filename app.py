@@ -120,7 +120,7 @@ def intro_quiz():
         # You can handle other answers here similarly if you have more questions
 
         # Redirect to a thank you page or another page after submission
-        return "Thank you for submitting your information!"
+        return render_template("pull_feeling_journal.html")
 
     # If the request is GET, simply render the form
     return render_template("form.html")
