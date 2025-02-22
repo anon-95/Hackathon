@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Productivity Quiz</title>
+    <script>
+        // Function to check if today is Sunday
+        function isSunday() {
+            const today = new Date();
+            return today.getDay() === 0; // Sunday is 0
+        }
+
+        // Function to display the quiz if today is Sunday
+        function checkDayAndShowQuiz() {
+            if (!isSunday()) {
+                document.getElementById("quiz-container").innerHTML = "<p>This quiz is only available on Sundays.</p>";
+            } else {
+                document.getElementById("quiz-container").style.display = "block";
+            }
+        }
+
+        // Function to handle form submission
+        function handleSubmit(event) {
+            event.preventDefault();  // Prevent form submission to a server
+
+            const submissionDate = new Date();
+            alert(`Thank you for submitting! You submitted the quiz on: ${submissionDate.toLocaleString()}`);
+            
+            // Save the submission date in localStorage
+            localStorage.setItem("quizSubmissionDate", submissionDate.toLocaleString());
+        }
+
+        // Function to show follow-up questions based on answers
+        function handleFollowUp(question, value) {
+            const followUpElement = document.getElementById(`follow-up-${question}`);
+            if (question === "goals" && value === "no") {
+                followUpElement.style.display = "block";
+            } else if (question === "forgetTasks" && value === "yes") {
+                followUpElement.style.display = "block";
+            } else if (question === "transition" && value === "yes") {
+                followUpElement.style.display = "block";
+            } else if (question === "emotions" && value === "yes") {
+                followUpElement.style.display = "block";
+            } else {
+                followUpElement.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body onload="checkDayAndShowQuiz()">
+    <h1>Weekly Productivity Quiz</h1>
+
+    <div id="quiz-container" style="display:none;">
+        <form id="quiz-form" onsubmit="handleSubmit(event)">
+            <p>1. Did you meet your productivity or task goals this week?</p>
+            <label><input type="radio" name="goals" value="yes" onclick="handleFollowUp('goals', 'yes')"> Yes</label>
+            <label><input type="radio" name="goals" value="no" onclick="handleFollowUp('goals', 'no')"> No</label>
+            <div id="follow-up-goals" style="display:none;">
+                <label for="obstacles">What were the obstacles?</label>
+                <textarea id="obstacles" name="obstacles"></textarea>
+            </div>
+
+            <p>2. How many days did you feel overwhelmed this week?</p>
+            <label><input type="radio" name="overwhelmed" value="None"> None</label><br>
+            <label><input type="radio" name="overwhelmed" value="1-2"> 1-2</label><br>
+            <label><input type="radio" name="overwhelmed" value="3-4"> 3-4</label><br>
+            <label><input type="radio" name="overwhelmed" value="5+"> 5+</label><br>
+
+            <p>3. How satisfied were you with your time management this week?</p>
+            <label><input type="radio" name="timeManagement" value="Not at all"> Not at all</label><br>
+            <label><input type="radio" name="timeManagement" value="Slightly"> Slightly</label><br>
+            <label><input type="radio" name="timeManagement" value="Moderately"> Moderately</label><br>
+            <label><input type="radio" name="timeManagement" value="Very satisfied"> Very satisfied</label><br>
+
+            <p>4. Did you forget any important tasks or appointments this week?</p>
+            <label><input type="radio" name="forgetTasks" value="yes" onclick="handleFollowUp('forgetTasks', 'yes')"> Yes</label>
+            <label><input type="radio" name="forgetTasks" value="no" onclick="handleFollowUp('forgetTasks', 'no')"> No</label>
+            <div id="follow-up-forgetTasks" style="display:none;">
+                <label for="forgotTasks">Which ones?</label>
+                <textarea id="forgotTasks" name="forgotTasks"></textarea>
+            </div>
+
+            <p>5. Did you have any difficulty transitioning between tasks?</p>
+            <label><input type="radio" name="transition" value="yes" onclick="handleFollowUp('transition', 'yes')"> Yes</label>
+            <label><input type="radio" name="transition" value="no" onclick="handleFollowUp('transition', 'no')"> No</label>
+            <div id="follow-up-transition" style="display:none;">
+                <label for="transitionChallenges">What were the challenges?</label>
+                <textarea id="transitionChallenges" name="transitionChallenges"></textarea>
+            </div>
+
+            <p>6. How often did you feel like you were “off track” this week?</p>
+            <label><input type="radio" name="offTrack" value="Rarely"> Rarely</label><br>
+            <label><input type="radio" name="offTrack" value="Sometimes"> Sometimes</label><br>
+            <label><input type="radio" name="offTrack" value="Often"> Often</label><br>
+            <label><input type="radio" name="offTrack" value="Almost always"> Almost always</label><br>
+
+            <p>7. Did you experience any emotional outbursts or mood swings?</p>
+            <label><input type="radio" name="emotions" value="yes" onclick="handleFollowUp('emotions', 'yes')"> Yes</label>
+            <label><input type="radio" name="emotions" value="no" onclick="handleFollowUp('emotions', 'no')"> No</label>
+            <div id="follow-up-emotions" style="display:none;">
+                <label for="emotionalOutbursts">What happened?</label>
+                <textarea id="emotionalOutbursts" name="emotionalOutbursts"></textarea>
+            </div>
+
+            <br><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
