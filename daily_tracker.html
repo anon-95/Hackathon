@@ -5,6 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Focus and Mental Health Survey</title>
     <script>
+        // Function to initialize or update the streak
+        function updateStreak() {
+            const lastSubmitDate = localStorage.getItem('lastSubmitDate');
+            const currentDate = new Date().toLocaleDateString();
+
+            // Check if the user has already submitted today
+            if (lastSubmitDate === currentDate) {
+                alert("You already submitted today! Your streak continues.");
+            } else {
+                let currentStreak = parseInt(localStorage.getItem('streak') || 0);
+
+                if (lastSubmitDate === new Date().toLocaleDateString()) {
+                    localStorage.setItem('streak', currentStreak + 1);
+                } else {
+                    localStorage.setItem('streak', 1);  // reset streak if it's a new streak
+                }
+                localStorage.setItem('lastSubmitDate', currentDate);
+                alert("Your streak has increased! Your current streak is " + (currentStreak + 1));
+            }
+        }
+
         // Function to toggle visibility of follow-up questions
         function toggleQuestion(id, show) {
             const question = document.getElementById(id);
@@ -42,7 +63,7 @@
 <body>
 
     <h1>Focus and Mental Health Survey</h1>
-    <form action="submit_form.php" method="POST">
+    <form id="surveyForm" onsubmit="event.preventDefault(); updateStreak();">
 
         <!-- Question 1: How focused did you feel today? -->
         <h2>How focused did you feel today?</h2>
