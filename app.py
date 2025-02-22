@@ -89,6 +89,62 @@ def logout():
     return redirect("/")
 
 
-# Run the application
+@app.route("/intro_quiz", methods=["GET", "POST"])
+def intro_quiz():
+    if request.method == "POST":
+        # Get form data
+        name = request.form.get("name")
+        medication = request.form.get("medication")
+        times_per_day = request.form.get("times_per_day")
+        email = request.form.get("email")
+
+        # Insert the data into the database
+        db.execute("""
+        INSERT INTO users (name, medication, times_per_day, email)
+        VALUES (?, ?, ?, ?)
+        """, name, medication, times_per_day, email)
+
+        # Redirect to a "Thank you" page or back to the form
+        return redirect("/thank_you")
+
+    # Render the form if it's a GET request
+    return render_template("index.html")
+
+# Route for the Thank You page (optional)
+@app.route("/thank_you")
+def thank_you():
+    return "Thank you for your submission!"
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+    
+@app.route("/submit", methods=["GET", "POST"])
+def submit():
+    if request.method == "POST":
+        # Retrieve form data
+        username = request.form.get("username")
+        medication = request.form.get("medication")
+        times_per_day = request.form.get("times_per_day")
+        email = request.form.get("email")
+
+        # Assume quiz_id and question_number are being passed as part of the form (or set default values for now)
+        quiz_id = 1  # Hardcoded quiz_id for now (adjust as needed)
+        question_number = 1  # Assume first question (adjust as needed)
+
+        # Insert form data into the quiz_answers table
+        db.execute("""
+        INSERT INTO quiz_answers (username, quiz_id, question_number, answer, time)
+        VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+        """, username, quiz_id, question_number, medication)
+
+        # You can handle other answers here similarly if you have more questions
+
+        # Redirect to a thank you page or another page after submission
+        return "Thank you for submitting your information!"
+
+    # If the request is GET, simply render the form
+    return render_template("form.html")
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -24,3 +24,4 @@ CREATE TABLE IF NOT EXISTS quiz_answers (
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 """)
+
