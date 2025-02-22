@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Growth Tracker</title>
+    <script>
+        let streak = 0;
+
+        // Function to increase streak
+        function increaseStreak() {
+            streak += 1;
+            updateStreak();
+            updatePlantGrowth();
+        }
+
+        // Update the streak number on the page
+        function updateStreak() {
+            document.getElementById("streak-number").innerText = streak;
+        }
+
+        // Update the plant's size based on the streak
+        function updatePlantGrowth() {
+            const plant = document.getElementById("plant");
+            const growthFactor = streak * 5;  // Each streak point increases growth by 5%
+
+            // Limit the plant size growth to a maximum value (e.g., 300%)
+            const newSize = Math.min(growthFactor, 300);
+
+            plant.style.transform = `scale(${1 + newSize / 100})`;  // Grow the plant
+        }
+    </script>
+</head>
+<body>
+    <h1>Plant Growth Tracker</h1>
+
+    <div>
+        <h2>Streak: <span id="streak-number">0</span> days</h2>
+        <button onclick="increaseStreak()">Increase Streak</button>
+    </div>
+
+    <div>
+        <h2>Plant Growth:</h2>
+        <div id="plant" style="width: 100px; height: 100px; background-color: green; border-radius: 50%; margin-top: 20px;">
+            <!-- Plant element, it will grow based on the streak -->
+        </div>
+    </div>
+
+    <p>Click the button to increase your streak, and watch your plant grow!</p>
+</body>
+</html>
