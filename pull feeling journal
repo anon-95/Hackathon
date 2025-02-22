@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal Entry for {{ date }}</title>
+</head>
+<body>
+    <h1>Journal Entry for {{ date }}</h1>
+    <textarea rows="10" cols="50" readonly>{{ journal_content }}</textarea><br><br>
+    <a href="/">Go back to today's journal</a>
+</body>
+</html>
