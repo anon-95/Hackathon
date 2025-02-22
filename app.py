@@ -16,7 +16,7 @@ Session(app)
 @app.route("/")
 def index():
     """Home Page"""
-    return render_template("index.html")
+    return render_template("login.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -68,7 +68,7 @@ def login():
 
         # Store user in session
         session["user_id"] = user[0]["id"]
-        return redirect("/dashboard")  # Redirect to dashboard after login
+        return render_template("intro_quiz")  # Redirect to dashboard after login
 
     return render_template("login.html")
 
