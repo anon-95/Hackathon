@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Quiz</title>
+    <link rel="stylesheet" href="../static/intro_quiz.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Welcome to the Quiz! Just answer a few questions about yourslef to get started.</h1>
+        <form id="quiz-form">
+            <label for="name">What is your name?</label>
+            <input type="text" id="name" name="name" required>
+            
+            <div class="question">
+                <p>1. What ADHD medication are you taking?</p>
+                <input type="text" id="name" name="name" required>
+        
+            </div>
+            
+            <div class="question">
+                <p>2. How many times a day do you take it??</p>
+                <input type="radio" id="One" name="q2" value="1" required>
+                <label for="One">3</label><br>
+                <input type="radio" id="Two" name="q2" value="2">
+                <label for="Two">4</label><br>
+            </div>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

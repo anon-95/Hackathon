@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus and Mental Health Survey</title>
+    <script>
+        // Function to initialize or update the streak
+        function updateStreak() {
+            const lastSubmitDate = localStorage.getItem('lastSubmitDate');
+            const currentDate = new Date().toLocaleDateString();
+
+            // Check if the user has already submitted today
+            if (lastSubmitDate === currentDate) {
+                alert("You already submitted today! Your streak continues.");
+            } else {
+                let currentStreak = parseInt(localStorage.getItem('streak') || 0);
+
+                if (lastSubmitDate === new Date().toLocaleDateString()) {
+                    localStorage.setItem('streak', currentStreak + 1);
+                } else {
+                    localStorage.setItem('streak', 1);  // reset streak if it's a new streak
+                }
+                localStorage.setItem('lastSubmitDate', currentDate);
+                alert("Your streak has increased! Your current streak is " + (currentStreak + 1));
+            }
+        }
+
+        // Function to toggle visibility of follow-up questions
+        function toggleQuestion(id, show) {
+            const question = document.getElementById(id);
+            question.style.display = show ? 'block' : 'none';
+        }
+
+        function handleTaskDifficulty() {
+            const answer = document.querySelector('input[name="task_difficulty"]:checked');
+            if (answer && answer.value === "yes") {
+                toggleQuestion('task_explanation', true);
+            } else {
+                toggleQuestion('task_explanation', false);
+            }
+        }
+
+        function handleOrganizingThoughts() {
+            const answer = document.querySelector('input[name="organizing_thoughts"]:checked');
+            if (answer && answer.value === "yes") {
+                toggleQuestion('organizing_explanation', true);
+            } else {
+                toggleQuestion('organizing_explanation', false);
+            }
+        }
+
+        function handleHyperfocus() {
+            const answer = document.querySelector('input[name="hyperfocus"]:checked');
+            if (answer && answer.value === "yes") {
+                toggleQuestion('hyperfocus_explanation', true);
+            } else {
+                toggleQuestion('hyperfocus_explanation', false);
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Focus and Mental Health Survey</h1>
+    <form id="surveyForm" onsubmit="event.preventDefault(); updateStreak();">
+
+        <!-- Question 1: How focused did you feel today? -->
+        <h2>How focused did you feel today?</h2>
+        <input type="radio" id="focus_a" name="focus" value="Not focused at all">
+        <label for="focus_a">a. Not focused at all</label><br>
+
+        <input type="radio" id="focus_b" name="focus" value="Slightly focused">
+        <label for="focus_b">b. Slightly focused</label><br>
+
+        <input type="radio" id="focus_c" name="focus" value="Moderately focused">
+        <label for="focus_c">c. Moderately focused</label><br>
+
+        <input type="radio" id="focus_d" name="focus" value="Very focused">
+        <label for="focus_d">d. Very focused</label><br><br>
+
+        <!-- Question 2: Did you experience any difficulty staying on task today? -->
+        <h2>Did you experience any difficulty staying on task today?</h2>
+        <input type="radio" id="difficulty_yes" name="task_difficulty" value="yes" onclick="handleTaskDifficulty()">
+        <label for="difficulty_yes">Yes</label><br>
+
+        <input type="radio" id="difficulty_no" name="task_difficulty" value="no" onclick="handleTaskDifficulty()">
+        <label for="difficulty_no">No</label><br><br>
+
+        <!-- Follow-up Question if "Yes" on Task Difficulty -->
+        <div id="task_explanation" style="display:none;">
+            <h2>What happened?</h2>
+            <textarea name="task_explanation" rows="4" cols="50"></textarea><br><br>
+        </div>
+
+        <!-- Question 3: How often did you feel restless or fidgety today? -->
+        <h2>How often did you feel restless or fidgety today?</h2>
+        <input type="radio" id="restless_a" name="restless" value="Not at all">
+        <label for="restless_a">a. Not at all</label><br>
+
+        <input type="radio" id="restless_b" name="restless" value="A little">
+        <label for="restless_b">b. A little</label><br>
+
+        <input type="radio" id="restless_c" name="restless" value="Frequently">
+        <label for="restless_c">c. Frequently</label><br>
+
+        <input type="radio" id="restless_d" name="restless" value="Constantly">
+        <label for="restless_d">d. Constantly</label><br><br>
+
+        <!-- Question 4: How many tasks did you complete today? -->
+        <h2>How many tasks did you complete today?</h2>
+        <input type="radio" id="tasks_a" name="tasks_completed" value="None">
+        <label for="tasks_a">a. None</label><br>
+
+        <input type="radio" id="tasks_b" name="tasks_completed" value="1-2">
+        <label for="tasks_b">b. 1-2</label><br>
+
+        <input type="radio" id="tasks_c" name="tasks_completed" value="3-4">
+        <label for="tasks_c">c. 3-4</label><br>
+
+        <input type="radio" id="tasks_d" name="tasks_completed" value="5+">
+        <label for="tasks_d">d. 5+</label><br><br>
+
+        <!-- Question 5: Did you experience any anxiety or stress today? -->
+        <h2>Did you experience any anxiety or stress today?</h2>
+        <input type="radio" id="stress_a" name="stress" value="None">
+        <label for="stress_a">a. None</label><br>
+
+        <input type="radio" id="stress_b" name="stress" value="Mild">
+        <label for="stress_b">b. Mild</label><br>
+
+        <input type="radio" id="stress_c" name="stress" value="Moderate">
+        <label for="stress_c">c. Moderate</label><br>
+
+        <input type="radio" id="stress_d" name="stress" value="Severe">
+        <label for="stress_d">d. Severe</label><br><br>
+
+        <!-- Question 6: Did you find it challenging to organize your thoughts or tasks? -->
+        <h2>Did you find it challenging to organize your thoughts or tasks?</h2>
+        <input type="radio" id="organizing_yes" name="organizing_thoughts" value="yes" onclick="handleOrganizingThoughts()">
+        <label for="organizing_yes">Yes</label><br>
+
+        <input type="radio" id="organizing_no" name="organizing_thoughts" value="no" onclick="handleOrganizingThoughts()">
+        <label for="organizing_no">No</label><br><br>
+
+        <!-- Follow-up Question if "Yes" on Organizing Thoughts -->
+        <div id="organizing_explanation" style="display:none;">
+            <h2>What made it difficult?</h2>
+            <textarea name="organizing_explanation" rows="4" cols="50"></textarea><br><br>
+        </div>
+
+        <!-- Question 7: How often did you take breaks today? -->
+        <h2>How often did you take breaks today?</h2>
+        <input type="radio" id="breaks_a" name="breaks" value="Not at all">
+        <label for="breaks_a">a. Not at all</label><br>
+
+        <input type="radio" id="breaks_b" name="breaks" value="Occasionally">
+        <label for="breaks_b">b. Occasionally</label><br>
+
+        <input type="radio" id="breaks_c" name="breaks" value="Frequently">
+        <label for="breaks_c">c. Frequently</label><br>
+
+        <input type="radio" id="breaks_d" name="breaks" value="Constantly">
+        <label for="breaks_d">d. Constantly</label><br><br>
+
+        <!-- Question 8: Did you experience any hyperfocus episodes? -->
+        <h2>Did you experience any hyperfocus episodes?</h2>
+        <input type="radio" id="hyperfocus_yes" name="hyperfocus" value="yes" onclick="handleHyperfocus()">
+        <label for="hyperfocus_yes">Yes</label><br>
+
+        <input type="radio" id="hyperfocus_no" name="hyperfocus" value="no" onclick="handleHyperfocus()">
+        <label for="hyperfocus_no">No</label><br><br>
+
+        <!-- Follow-up Question if "Yes" on Hyperfocus -->
+        <div id="hyperfocus_explanation" style="display:none;">
+            <h2>What were you focusing on?</h2>
+            <textarea name="hyperfocus_explanation" rows="4" cols="50"></textarea><br><br>
+        </div>
+
+        <!-- Final Question: Symptoms Check -->
+        <h2>Check off the boxes for what symptoms you felt today:</h2>
+        <input type="checkbox" name="symptoms" value="Loss of appetite"> Loss of appetite<br>
+        <input type="checkbox" name="symptoms" value="Trouble sleeping"> Trouble sleeping<br>
+        <input type="checkbox" name="symptoms" value="Jitteriness"> Jitteriness<br>
+        <input type="checkbox" name="symptoms" value="Irritability"> Irritability<br>
+        <input type="checkbox" name="symptoms" value="Moodiness"> Moodiness<br>
+        <input type="checkbox" name="symptoms" value="Headaches"> Headaches<br>
+        <input type="checkbox" name="symptoms" value="Stomachaches"> Stomachaches<br>
+        <input type="checkbox" name="symptoms" value="Fast heart rate"> Fast heart rate<br>
+        <input type="checkbox" name="symptoms" value="High blood pressure"> High blood pressure<br><br>
+
+        <!-- Submit Button -->
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>
