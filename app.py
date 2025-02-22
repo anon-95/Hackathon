@@ -1,84 +1,94 @@
 from flask import Flask, render_template, request, redirect, session
-from werkzeug.security import generate_password_hash
-from cs50 import SQL  # If you're using CS50's SQL database
+from werkzeug.security import generate_password_hash, check_password_hash
+from cs50 import SQL
+from flask_session import Session
 
+# Initialize Flask application
 app = Flask(__name__)
 
+# Initialize CS50's SQL connection
 db = SQL("sqlite:///database.db")
 
-
+# Flask session configuration
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+@app.route("/")
+def index():
+    """Home Page"""
+    return render_template("index.html")
 
-
-@app.route('/')
-def home():
-    return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    """Register user"""
+    """User Registration"""
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
 
+        # Ensure username was provided
         if not username:
-            return "must provide username", 400
-        elif not password:
-            return "must provide password", 400
-        elif password != confirmation:
-            return "Passwords do not match", 400
-        
+            return "Username is required", 400
+
+        # Ensure password and confirmation match
+        if password != confirmation:
+            return "Passwords don't match", 400
+
         # Hash the password
         hashed_password = generate_password_hash(password)
 
-        # Insert the new user into the database
-        db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", username, hashed_password)
-
-        # Get the user_id of the newly registered user
-        user = db.execute("SELECT id FROM users WHERE username = ?", username)
-        user_id = user[0]["id"]
-
-        # Store user_id in the session
-        session["user_id"] = user_id
-        session["username"] = username
-
-        return redirect("/")
+        # Insert user into database
+        try:
+            db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", username, hashed_password)
+            return redirect("/login")  # Redirect to login page after registration
+        except:
+            return "Username already exists", 400
 
     return render_template("register.html")
 
-@app.route("/submit_quiz", methods=["POST"])
-def submit_quiz():
-    """Submit quiz answers"""
-    username = session.get("username")
-    if not username:
-        return redirect("/login")
 
-    quiz_id = request.form.get("quiz_id")
-    answers = request.form.getlist("answers")  # Assume you're getting a list of answers
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """User Login"""
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
 
-    # Get the user_id from the session
-    user_id = session.get("user_id")
+        # Ensure username and password were provided
+        if not username or not password:
+            return "Username and password are required", 400
 
-    for i, answer in enumerate(answers, start=1):
-        # Insert each answer into the quiz_answers table with the user_id
-        db.execute("""
-        INSERT INTO quiz_answers (user_id, quiz_id, question_number, answer)
-        VALUES (?, ?, ?, ?)
-        """, user_id, quiz_id, i, answer)
+        # Retrieve the user from the database
+        user = db.execute("SELECT * FROM users WHERE username = ?", username)
+        
+        # Ensure user exists and password matches
+        if len(user) != 1 or not check_password_hash(user[0]["hash"], password):
+            return "Invalid username or password", 400
 
-    return redirect("/quiz_results")
+        # Store user in session
+        session["user_id"] = user[0]["id"]
+        return redirect("/dashboard")  # Redirect to dashboard after login
 
-
-@app.route('/daily_tracker')
-def daily_tracker():
-    return render_template('daily_tracker.html')
+    return render_template("login.html")
 
 
+@app.route("/dashboard")
+def dashboard():
+    """User Dashboard (Requires Login)"""
+    if "user_id" not in session:
+        return redirect("/login")  # If not logged in, redirect to login
+
+    return render_template("dashboard.html")
 
 
+@app.route("/logout")
+def logout():
+    """User Logout"""
+    session.clear()  # Clear session
+    return redirect("/")
 
+
+# Run the application
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
